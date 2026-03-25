@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gửi Quốc Anh</title>
+    <title>Gửi Quốc Anh ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -30,9 +30,9 @@
             position: absolute; animation: fall linear infinite;
         }
 
-        /* Lớp màu trái tim ngẫu nhiên */
-        .heart.red { color: #ff3366; opacity: 0.9; } /* Màu đỏ tươi mờ nhẹ */
-        .heart.white { color: #ffffff; opacity: 0.9; } /* Màu trắng mờ nhẹ */
+        /* Màu trái tim Trắng và Đỏ theo yêu cầu của Quỳnh */
+        .heart.red { color: #ff0000; text-shadow: 0 0 5px rgba(255,0,0,0.3); }
+        .heart.white { color: #ffffff; text-shadow: 0 0 5px rgba(255,255,255,0.5); }
 
         .falling-text {
             color: #ff80ab; font-family: 'Dancing Script', cursive;
@@ -42,7 +42,7 @@
 
         @keyframes fall {
             0% { transform: translateY(-100px); opacity: 0; }
-            10% { opacity: 1; }
+            10% { opacity: 0.8; }
             100% { transform: translateY(100vh); opacity: 0; }
         }
 
@@ -87,13 +87,7 @@
             color: var(--text-gray); line-height: 1.6;
         }
 
-        .spotify-container { 
-            margin-top: 20px; 
-            border-radius: 12px; 
-            overflow: hidden; 
-            min-height: 152px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
+        .spotify-container { margin-top: 20px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
 
         .close-btn {
             margin-top: 15px; padding: 8px 20px;
@@ -103,7 +97,7 @@
 
         .counter-container {
             position: relative; z-index: 5;
-            background: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.5);
             padding: 15px 25px; border-radius: 25px;
             text-align: center; color: var(--text-gray);
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
@@ -124,17 +118,12 @@
         
         <div class="letter">
             <div class="letter-content">
-                hello anhuiiu dấu cụa iem,<br><br>
-                hí hí hỏng có gì trong này hết á lêu lêu lêu, em chỉ test code em mới tạo hui cưng ơi, cảm ơn cưng đã enjoy cái mâu mần này nhế há há<br>
-                — Như Quỳnh nè love uuu he
+                Hello Anh iuu dấu cụa iem,<br><br>
+                Hí hí hỏng có gì trong này hết á lêu lêu lêu, em chỉ test code em mới tạo hui cưng ơi, cảm ơn cưng đã enjoy cái mâu mần này nhế há há<br>
+                — Như Quỳnh nè love uuu ❤️
                 
                 <div class="spotify-container">
-                    <iframe style="border-radius:12px" 
-                        src="https://open.spotify.com/embed/...3" 
-                        width="100%" height="152" frameBorder="0" allowfullscreen="" 
-                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                        loading="lazy">
-                    </iframe>
+                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/6UunGIn7vX1Q98fVvY2Zis?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                 </div>
                 
                 <button class="close-btn" onclick="closeLetter(event)">Đóng thư</button>
@@ -148,6 +137,7 @@
     </div>
 
     <script>
+        // Mật mã mở thư
         function handleEnvelopeClick() {
             const wrapper = document.getElementById('wrapper');
             if (!wrapper.classList.contains('open')) {
@@ -155,7 +145,7 @@
                 if (password === "16052024") {
                     openLetter();
                 } else if (password !== null) {
-                    alert("Sai mật mã rồi cưng ơi! Thử lại xem nè 😘");
+                    alert("Sai mật mã rồi cưng ơi! phacdu😘");
                 }
             }
         }
@@ -169,6 +159,7 @@
             document.getElementById('wrapper').classList.remove('open');
         }
 
+        // Bộ đếm thời gian từ 16/05/2024
         const startDate = new Date("2024-05-16T00:00:00").getTime();
         function updateTimer() {
             const now = new Date().getTime();
@@ -181,53 +172,34 @@
         }
         setInterval(updateTimer, 1000);
 
+        // Hiệu ứng rơi trái tim Đỏ - Trắng và chữ
         const container = document.getElementById('falling-container');
-        const textArray = ["i love u", "miss you", "QuocAnh", "onlyyou", "NhuHuynh", "foreverlove", " há há há", nhớ ôn chã nhìu", "iu ôn chã"];
+        const textArray = ["i love u", "miss you", "QuocAnh", "onlyyou", "NhuHuynh", "foreverlove"];
+
         function createFallingItem() {
-            // Ngẫu nhiên chọn rơi trái tim (80%) hoặc chữ (20%)
-            if (Math.random() < 0.8) {
-                createHeart();
-            } else {
-                createFallingText();
-            }
-        }
-
-        // Hàm tạo trái tim rơi với màu trắng/đỏ ngẫu nhiên
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
+            const isHeart = Math.random() < 0.7; // 70% rơi trái tim
+            const el = document.createElement('div');
             
-            // Ngẫu nhiên gán lớp 'red' hoặc 'white'
-            if (Math.random() < 0.5) {
-                heart.classList.add('red');
+            if (isHeart) {
+                el.classList.add('heart');
+                // Ngẫu nhiên chọn màu đỏ hoặc trắng
+                el.classList.add(Math.random() < 0.5 ? 'red' : 'white');
+                el.innerHTML = '❤';
+                el.style.fontSize = (Math.random() * 15 + 15) + 'px';
             } else {
-                heart.classList.add('white');
+                el.classList.add('falling-text');
+                el.innerHTML = textArray[Math.floor(Math.random() * textArray.length)];
+                el.style.fontSize = (Math.random() * 8 + 18) + 'px';
             }
             
-            heart.innerHTML = '❤';
-            heart.style.left = Math.random() * 95 + 'vw';
-            heart.style.fontSize = (Math.random() * 15 + 15) + 'px'; // 15px - 30px
-            heart.style.animationDuration = (Math.random() * 3 + 4) + 's'; // Rơi nhanh hơn chút
+            el.style.left = Math.random() * 95 + 'vw';
+            el.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            container.appendChild(el);
             
-            container.appendChild(heart);
-            setTimeout(() => { heart.remove(); }, 6000);
+            // Xóa phần tử sau khi rơi xong để tránh nặng web
+            setTimeout(() => el.remove(), 8000);
         }
-
-        // Hàm tạo chữ rơi (đã chỉnh nằm ngang)
-        function createFallingText() {
-            const textEl = document.createElement('div');
-            textEl.classList.add('falling-text');
-            textEl.innerHTML = textArray[Math.floor(Math.random() * textArray.length)];
-            textEl.style.left = Math.random() * 90 + 'vw'; 
-            textEl.style.fontSize = (Math.random() * 8 + 18) + 'px'; // 18px - 26px
-            textEl.style.animationDuration = (Math.random() * 4 + 4) + 's'; // 4s - 8s (rơi chậm hơn)
-            
-            container.appendChild(textEl);
-            setTimeout(() => { textEl.remove(); }, 8000);
-        }
-
-        // Tạo phần tử rơi mỗi 300ms (dày đặc hơn chút)
-        setInterval(createFallingItem, 300);
+        setInterval(createFallingItem, 400);
     </script>
 </body>
 </html>
