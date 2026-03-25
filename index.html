@@ -80,19 +80,31 @@
             100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(233, 30, 99, 0); }
         }
 
-        /* Dòng chữ hướng dẫn phía trên con dấu */
-        .press-hint {
-            position: absolute; 
-            top: 25%; 
-            left: 50%; 
-            transform: translateX(-50%);
-            font-size: 0.75rem;
-            color: var(--dark-pink);
+        /* MỚI: Dòng chữ bo tròn phía trên con dấu */
+        .curved-text-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px; /* Độ rộng của vòng cung */
+            height: 120px;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .curved-text-container svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .curved-text-container text {
+            fill: var(--dark-pink);
+            font-size: 10px;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            z-index: 3;
-            opacity: 0.7;
+            letter-spacing: 2px;
+            opacity: 0.8;
         }
 
         /* Tên cặp đôi trên bao thư */
@@ -154,7 +166,17 @@
 
     <div class="envelope-wrapper" id="wrapper" onclick="handleEnvelopeClick()">
         <div class="envelope">
-            <div class="press-hint">Press this button</div>
+            <div class="curved-text-container">
+                <svg viewBox="0 0 100 100">
+                    <path id="curve" d="M 20,50 A 30,30 0 0,1 80,50" fill="transparent" />
+                    <text>
+                        <textPath xlink:href="#curve" startOffset="50%" text-anchor="middle">
+                            Press this button
+                        </textPath>
+                    </text>
+                </svg>
+            </div>
+
             <div class="stamp">❤</div>
             <div class="couple-names">Thanks for coming</div>
             <div class="envelope-quote">“You may be out of my sight, but you’re all I see”</div>
