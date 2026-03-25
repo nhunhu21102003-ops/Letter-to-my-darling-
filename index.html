@@ -84,7 +84,7 @@
             color: var(--text-gray); line-height: 1.6;
         }
 
-        .spotify-container { margin-top: 20px; border-radius: 12px; overflow: hidden; }
+        .spotify-container { margin-top: 20px; border-radius: 12px; overflow: hidden; min-height: 152px; background: #000; }
 
         .close-btn {
             margin-top: 15px; padding: 8px 20px;
@@ -101,7 +101,6 @@
             margin-top: 10px;
         }
 
-        .counter-title { font-size: 1rem; margin-bottom: 5px; }
         .timer { font-size: 1.1rem; font-weight: bold; color: var(--dark-pink); }
     </style>
 </head>
@@ -137,11 +136,8 @@
     <script>
         function handleEnvelopeClick() {
             const wrapper = document.getElementById('wrapper');
-            
-            // Nếu thư chưa mở thì mới yêu cầu mật mã
             if (!wrapper.classList.contains('open')) {
                 const password = prompt("Nhập mật mã tình yêu của chúng mình (ddmmyyyy):");
-                
                 if (password === "16052024") {
                     openLetter();
                 } else if (password !== null) {
