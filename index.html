@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gửi Quốc Anh</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-pink: #f8bbd0;
+            --soft-white: #fffafa;
+            --text-gray: #5d4037;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+            font-family: 'Quicksand', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Hiệu ứng trái tim rơi */
+        .heart-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Phong bì thư */
+        .envelope-wrapper {
+            position: relative;
+            cursor: pointer;
+            z-index: 10;
+            transition: transform 0.3s ease;
+        }
+
+        .envelope-wrapper:hover {
+            transform: scale(1.05);
+        }
+
+        .envelope {
+            width: 300px;
+            height: 200px;
+            background: #ffffff;
+            border-radius: 0 0 10px 10px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .envelope::before {
+            content: "";
+            position: absolute;
+            top: -100px;
+            left: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-bottom: 100px solid #ffffff;
+            transition: 0.5s transform;
+            transform-origin: bottom;
+            z-index: 2;
+        }
+
+        /* Nội dung bức thư */
+        .letter {
+            position: absolute;
+            bottom: 20px;
+            left: 10px;
+            width: 280px;
+            background: #fff;
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
+            transition: 0.5s transform;
+            z-index: 1;
+            opacity: 0;
+        }
+
+        .letter-content {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            line-height: 1.6;
+        }
+
+        /* Trạng thái mở thư */
+        .envelope-wrapper.open .envelope::before {
+            transform: rotateX(180deg);
+        }
+
+        .envelope-wrapper.open .letter {
+            transform: translateY(-250px);
+            opacity: 1;
+            z-index: 3;
+            height: auto;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .spotify-container {
+            margin-top: 20px;
+            border-radius: 12px;
+        }
+
+        .stamp {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background: #e91e63;
+            border-radius: 50%;
+            z-index: 4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="heart-bg" id="hearts"></div>
+
+    <div class="envelope-wrapper" onclick="toggleLetter(this)">
+        <div class="envelope">
+            <div class="stamp">❤</div>
+        </div>
+        <div class="letter">
+            <div class="letter-content">
+                Chào Anhui iu dấu cụa iem,<br><br>
+                Hông có gì hết há há há , em chỉ đang test web iem mới tạo hoy há há há.<br>
+                — Như Quỳnh
+                
+                <div class="spotify-container">
+                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX4p6VtxnaCIQ?utm_source=generator" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleLetter(el) {
+            el.classList.toggle('open');
+        }
+
+        // Tạo hiệu ứng trái tim rơi đơn giản
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤';
+            heart.style.position = 'fixed';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '-20px';
+            heart.style.color = 'white';
+            heart.style.opacity = Math.random();
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            heart.style.transition = '5s linear';
+            
+            document.getElementById('hearts').appendChild(heart);
+
+            setTimeout(() => {
+                heart.style.top = '100vh';
+            }, 100);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+
+        setInterval(createHeart, 500);
+    </script>
+</body>
+</html>
