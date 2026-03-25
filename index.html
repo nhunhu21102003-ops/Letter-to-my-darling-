@@ -7,151 +7,119 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-pink: #f8bbd0;
-            --soft-white: #fffafa;
+            --primary-pink: #fce4ec;
+            --dark-pink: #e91e63;
             --text-gray: #5d4037;
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            margin: 0; padding: 0;
+            display: flex; justify-content: center; align-items: center;
             min-height: 100vh;
             background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
             font-family: 'Quicksand', sans-serif;
+            overflow: hidden;
         }
 
-        .heart-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
+        /* Hiệu ứng rơi */
+        #falling-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0;
         }
 
-        .envelope-wrapper {
-            position: relative;
-            z-index: 10;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .heart, .falling-text {
+            position: absolute; animation: fall linear infinite;
         }
+
+        .heart { color: white; }
+        .falling-text {
+            color: #ff80ab; font-family: 'Dancing Script', cursive;
+            white-space: nowrap; font-weight: bold;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Phong bì */
+        .envelope-wrapper { position: relative; z-index: 10; cursor: pointer; }
 
         .envelope {
-            width: 300px;
-            height: 200px;
-            background: #ffffff;
-            border-radius: 0 0 10px 10px;
-            position: relative;
+            width: 300px; height: 200px; background: #ffffff;
+            border-radius: 0 0 10px 10px; position: relative;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            cursor: pointer;
-            transition: 0.3s;
         }
 
         .envelope::before {
-            content: "";
-            position: absolute;
-            top: -100px;
-            left: 0;
-            border-left: 150px solid transparent;
-            border-right: 150px solid transparent;
-            border-bottom: 100px solid #ffffff;
-            z-index: 2;
+            content: ""; position: absolute; top: -100px; left: 0;
+            border-left: 150px solid transparent; border-right: 150px solid transparent;
+            border-bottom: 100px solid #ffffff; z-index: 2;
         }
 
         .stamp {
-            position: absolute;
-            top: 50%;
-            left: 50%;
+            position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 50px;
-            height: 50px;
-            background: #e91e63;
-            border-radius: 50%;
-            z-index: 4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 20px;
+            width: 60px; height: 60px; background: var(--dark-pink);
+            border-radius: 50%; z-index: 4;
+            display: flex; justify-content: center; align-items: center;
+            color: white; font-size: 24px;
         }
 
-        /* LÁ THƯ MỚI: ĐÈ LÊN TRÊN */
+        /* Thư hiện ra */
         .letter {
-            position: fixed;
-            top: 50%;
-            left: 50%;
+            position: fixed; top: 50%; left: 50%;
             transform: translate(-50%, -50%) scale(0);
-            width: 90%;
-            max-width: 400px;
-            max-height: 80vh; /* Không quá 80% chiều cao màn hình */
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-            z-index: 100;
-            overflow-y: auto; /* Cho phép cuộn nếu thư dài */
-            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            opacity: 0;
+            width: 85%; max-width: 400px; max-height: 75vh;
+            background: white; padding: 30px; border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            z-index: 100; overflow-y: auto;
+            transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0; text-align: center;
         }
 
-        .envelope-wrapper.open .letter {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 1;
-        }
+        .envelope-wrapper.open .letter { transform: translate(-50%, -50%) scale(1); opacity: 1; }
 
         .letter-content {
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.3rem;
-            color: var(--text-gray);
-            line-height: 1.6;
-            text-align: center;
+            font-family: 'Dancing Script', cursive; font-size: 1.4rem;
+            color: var(--text-gray); line-height: 1.7;
         }
+
+        .spotify-frame {
+            margin-top: 20px; border-radius: 12px;
+            opacity: 0; transition: 1s;
+        }
+
+        .envelope-wrapper.open .spotify-frame { opacity: 1; }
 
         .close-btn {
-            display: block;
-            margin: 20px auto 0;
-            padding: 8px 20px;
-            background: var(--primary-pink);
-            border: none;
-            border-radius: 20px;
-            color: white;
-            cursor: pointer;
-            font-family: 'Quicksand', sans-serif;
-        }
-
-        .spotify-container {
-            margin-top: 20px;
-            border-radius: 12px;
-            overflow: hidden;
+            margin-top: 20px; padding: 8px 20px;
+            background: var(--dark-pink); border: none;
+            border-radius: 20px; color: white; cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-    <div class="heart-bg" id="hearts"></div>
+    <div id="falling-container"></div>
 
-    <div class="envelope-wrapper" id="wrapper">
-        <div class="envelope" onclick="openLetter()">
+    <div class="envelope-wrapper" id="wrapper" onclick="openLetter()">
+        <div class="envelope">
             <div class="stamp">❤</div>
         </div>
         
-        <div class="letter" id="letter">
+        <div class="letter">
             <div class="letter-content">
-                Chào Anh,<br><br>
-                Dù khoảng cách 300km có xa đến mấy, nhưng em tin chỉ cần lòng mình hướng về nhau, mọi chuyến xe đều sẽ ngắn lại.<br><br>
-                Cảm ơn anh vì đã luôn kiên trì cùng em qua những ngày yêu xa. Chúc cho sự nghiệp của anh trong năm 2026 sẽ thật rực rỡ và thành công nhé!<br><br>
-                Thương anh và nhớ Đốm thật nhiều.<br>
-                — Như Huỳnh
-                
-                <div class="spotify-container">
-                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/1gfvt2LrN9uQLwYqDQbPfV?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                Chào Anhui iu dấu cụa iem,<br><br>
+                hông có gì hết á lêu lêu há há há <br><br>
+                em chỉ đang test web code em mới tạo hui <br><br>
+                quá là tuỵt dời :)))).<br>
+                — Như Quỳnh nè
+                <br>
+                <div class="spotify-frame" id="music-player">
+                    <iframe style="border-radius:12px" src="http://googleusercontent.com/spotify.com/9" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                 </div>
-
                 <button class="close-btn" onclick="closeLetter(event)">Đóng thư</button>
             </div>
         </div>
@@ -159,29 +127,41 @@
 
     <script>
         function openLetter() {
-            document.getElementById('wrapper').classList.add('open');
+            const wrapper = document.getElementById('wrapper');
+            if(!wrapper.classList.contains('open')) {
+                wrapper.classList.add('open');
+                // Lưu ý: Spotify vẫn cần người dùng nhấn "Play" một lần đầu tiên trên khung nhạc
+                // do chính sách bảo mật của trình duyệt (Autoplay Policy).
+            }
         }
 
         function closeLetter(event) {
-            event.stopPropagation(); // Ngăn sự kiện click lan ra ngoài
+            event.stopPropagation();
             document.getElementById('wrapper').classList.remove('open');
         }
 
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.innerHTML = '❤';
-            heart.style.position = 'fixed';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.top = '-20px';
-            heart.style.color = 'white';
-            heart.style.opacity = Math.random();
-            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
-            heart.style.transition = '5s linear';
-            document.getElementById('hearts').appendChild(heart);
-            setTimeout(() => { heart.style.top = '100vh'; }, 100);
-            setTimeout(() => { heart.remove(); }, 6000);
+        // Hiệu ứng rơi chữ và trái tim
+        const container = document.getElementById('falling-container');
+        const textArray = ["i love u", "miss you", "QuocAnh", "NhuHuynh", "foreverlove"];
+
+        function createFallingItem() {
+            const isHeart = Math.random() < 0.7;
+            const el = document.createElement('div');
+            if (isHeart) {
+                el.classList.add('heart');
+                el.innerHTML = '❤';
+                el.style.fontSize = (Math.random() * 15 + 15) + 'px';
+            } else {
+                el.classList.add('falling-text');
+                el.innerHTML = textArray[Math.floor(Math.random() * textArray.length)];
+                el.style.fontSize = (Math.random() * 10 + 20) + 'px';
+            }
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.animationDuration = (Math.random() * 4 + 4) + 's';
+            container.appendChild(el);
+            setTimeout(() => el.remove(), 8000);
         }
-        setInterval(createHeart, 500);
+        setInterval(createFallingItem, 400);
     </script>
 </body>
 </html>
