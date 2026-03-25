@@ -14,14 +14,13 @@
 
         body {
             margin: 0; padding: 0;
-            display: flex; justify-content: center; align-items: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
             min-height: 100vh;
             background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
             font-family: 'Quicksand', sans-serif;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
-        /* Hiệu ứng rơi */
         #falling-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 0;
@@ -35,16 +34,16 @@
         .falling-text {
             color: #ff80ab; font-family: 'Dancing Script', cursive;
             white-space: nowrap; font-weight: bold;
+            transform: rotate(0deg); 
         }
 
         @keyframes fall {
-            0% { transform: translateY(-100px) rotate(0deg); opacity: 0; }
+            0% { transform: translateY(-100px); opacity: 0; }
             10% { opacity: 0.8; }
-            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+            100% { transform: translateY(100vh); opacity: 0; }
         }
 
-        /* Phong bì */
-        .envelope-wrapper { position: relative; z-index: 10; cursor: pointer; }
+        .envelope-wrapper { position: relative; z-index: 10; cursor: pointer; margin-bottom: 30px; }
 
         .envelope {
             width: 300px; height: 200px; background: #ffffff;
@@ -67,12 +66,11 @@
             color: white; font-size: 24px;
         }
 
-        /* Thư hiện ra */
         .letter {
-            position: fixed; top: 50%; left: 50%;
+            position: fixed; top: 45%; left: 50%;
             transform: translate(-50%, -50%) scale(0);
-            width: 85%; max-width: 400px; max-height: 75vh;
-            background: white; padding: 30px; border-radius: 20px;
+            width: 85%; max-width: 420px; max-height: 75vh;
+            background: white; padding: 25px; border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             z-index: 100; overflow-y: auto;
             transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -82,57 +80,78 @@
         .envelope-wrapper.open .letter { transform: translate(-50%, -50%) scale(1); opacity: 1; }
 
         .letter-content {
-            font-family: 'Dancing Script', cursive; font-size: 1.4rem;
-            color: var(--text-gray); line-height: 1.7;
+            font-family: 'Dancing Script', cursive; font-size: 1.3rem;
+            color: var(--text-gray); line-height: 1.6;
         }
 
-        .spotify-frame {
-            margin-top: 20px; border-radius: 12px;
-            opacity: 0; transition: 1s;
-        }
-
-        .envelope-wrapper.open .spotify-frame { opacity: 1; }
+        .spotify-container { margin-top: 20px; border-radius: 12px; overflow: hidden; }
 
         .close-btn {
-            margin-top: 20px; padding: 8px 20px;
+            margin-top: 15px; padding: 8px 20px;
             background: var(--dark-pink); border: none;
             border-radius: 20px; color: white; cursor: pointer;
         }
+
+        .counter-container {
+            position: relative; z-index: 5;
+            background: rgba(255, 255, 255, 0.4);
+            padding: 15px 25px; border-radius: 25px;
+            text-align: center; color: var(--text-gray);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-top: 10px;
+        }
+
+        .counter-title { font-size: 1rem; margin-bottom: 5px; }
+        .timer { font-size: 1.1rem; font-weight: bold; color: var(--dark-pink); }
     </style>
 </head>
 <body>
 
     <div id="falling-container"></div>
 
-    <div class="envelope-wrapper" id="wrapper" onclick="openLetter()">
+    <div class="envelope-wrapper" id="wrapper" onclick="handleEnvelopeClick()">
         <div class="envelope">
             <div class="stamp">❤</div>
         </div>
         
         <div class="letter">
             <div class="letter-content">
-                Chào Anhui iu dấu cụa iem,<br><br>
-                hông có gì hết á lêu lêu há há há <br><br>
-                em chỉ đang test web code em mới tạo hui <br><br>
-                quá là tuỵt dời :)))).<br>
-                — Như Quỳnh nè
-                <br>
-                <div class="spotify-frame" id="music-player">
-                    <iframe style="border-radius:12px" src="http://googleusercontent.com/spotify.com/9" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                hello anhuiiu dấu cụa iem,<br><br>
+                hí hí hỏng có gì trong này hết á lêu lêu lêu, em chỉ test code em mới tạo hui cưng ơi, cảm ơn cưng đã enjoy cái mâu mần này nhế há há<br>
+                — Như Quỳnh nè love uuu he
+                
+                <div class="spotify-container">
+                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/6UelLqGlWMvD1bdS8pVg3C?utm_source=generator2" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                 </div>
+                
                 <button class="close-btn" onclick="closeLetter(event)">Đóng thư</button>
             </div>
         </div>
     </div>
 
+    <div class="counter-container">
+        <div class="counter-title">Chúng mình đã bên nhau được:</div>
+        <div class="timer" id="timer">Đang tính...</div>
+    </div>
+
     <script>
-        function openLetter() {
+        function handleEnvelopeClick() {
             const wrapper = document.getElementById('wrapper');
-            if(!wrapper.classList.contains('open')) {
-                wrapper.classList.add('open');
-                // Lưu ý: Spotify vẫn cần người dùng nhấn "Play" một lần đầu tiên trên khung nhạc
-                // do chính sách bảo mật của trình duyệt (Autoplay Policy).
+            
+            // Nếu thư chưa mở thì mới yêu cầu mật mã
+            if (!wrapper.classList.contains('open')) {
+                const password = prompt("Nhập mật mã tình yêu của chúng mình (ddmmyyyy):");
+                
+                if (password === "16052024") {
+                    openLetter();
+                } else if (password !== null) {
+                    alert("Sai mật mã rồi cưng ơi! Thử lại xem nè 😘");
+                }
             }
+        }
+
+        function openLetter() {
+            document.getElementById('wrapper').classList.add('open');
         }
 
         function closeLetter(event) {
@@ -140,12 +159,23 @@
             document.getElementById('wrapper').classList.remove('open');
         }
 
-        // Hiệu ứng rơi chữ và trái tim
+        const startDate = new Date("2024-05-16T00:00:00").getTime();
+        function updateTimer() {
+            const now = new Date().getTime();
+            const diff = now - startDate;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            document.getElementById("timer").innerHTML = days + " ngày " + hours + " giờ " + minutes + " phút " + seconds + " giây";
+        }
+        setInterval(updateTimer, 1000);
+
         const container = document.getElementById('falling-container');
         const textArray = ["i love u", "miss you", "QuocAnh", "NhuHuynh", "foreverlove"];
 
         function createFallingItem() {
-            const isHeart = Math.random() < 0.7;
+            const isHeart = Math.random() < 0.6;
             const el = document.createElement('div');
             if (isHeart) {
                 el.classList.add('heart');
@@ -154,10 +184,10 @@
             } else {
                 el.classList.add('falling-text');
                 el.innerHTML = textArray[Math.floor(Math.random() * textArray.length)];
-                el.style.fontSize = (Math.random() * 10 + 20) + 'px';
+                el.style.fontSize = (Math.random() * 8 + 18) + 'px';
             }
-            el.style.left = Math.random() * 100 + 'vw';
-            el.style.animationDuration = (Math.random() * 4 + 4) + 's';
+            el.style.left = Math.random() * 95 + 'vw';
+            el.style.animationDuration = (Math.random() * 3 + 5) + 's';
             container.appendChild(el);
             setTimeout(() => el.remove(), 8000);
         }
