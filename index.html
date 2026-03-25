@@ -84,9 +84,9 @@
             color: var(--text-gray); line-height: 1.6;
         }
 
-        /* Ẩn trình phát nhạc đi hoàn toàn */
+        /* Ẩn trình phát nhạc SoundCloud */
         #music-box {
-            width: 0; height: 0; opacity: 0; pointer-events: none; visibility: hidden;
+            position: absolute; width: 0; height: 0; opacity: 0; pointer-events: none;
         }
 
         .close-btn {
@@ -123,7 +123,7 @@
                 — Như Quỳnh nè love uuu he
                 
                 <div id="music-box">
-                    <iframe id="youtube-player" src="https://www.youtube.com/embed/oQKZC6Qnrqw?start=50&enablejsapi=1" frameborder="0" allow="autoplay"></iframe>
+                    <iframe id="sc-player" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1757884617&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
                 </div>
                 
                 <button class="close-btn" onclick="closeLetter(event)">Đóng thư</button>
@@ -151,17 +151,20 @@
 
         function openLetter() {
             document.getElementById('wrapper').classList.add('open');
-            // Kích hoạt nhạc khi mở thư
-            const player = document.getElementById('youtube-player');
-            player.src += "&autoplay=1";
+            // Kích hoạt tự phát SoundCloud bằng cách thay đổi src
+            const player = document.getElementById('sc-player');
+            let currentSrc = player.src;
+            if (!currentSrc.includes("auto_play=true")) {
+                player.src = currentSrc.replace("auto_play=false", "auto_play=true");
+            }
         }
 
         function closeLetter(event) {
             event.stopPropagation();
             document.getElementById('wrapper').classList.remove('open');
-            // Ngắt nhạc khi đóng
-            const player = document.getElementById('youtube-player');
-            player.src = player.src.replace("&autoplay=1", "");
+            // Dừng nhạc
+            const player = document.getElementById('sc-player');
+            player.src = player.src.replace("auto_play=true", "auto_play=false");
         }
 
         const startDate = new Date("2024-05-16T00:00:00").getTime();
