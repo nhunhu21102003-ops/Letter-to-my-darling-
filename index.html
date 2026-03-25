@@ -80,6 +80,21 @@
             100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(233, 30, 99, 0); }
         }
 
+        /* Dòng chữ hướng dẫn phía trên con dấu */
+        .press-hint {
+            position: absolute; 
+            top: 25%; 
+            left: 50%; 
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            color: var(--dark-pink);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 3;
+            opacity: 0.7;
+        }
+
         /* Tên cặp đôi trên bao thư */
         .couple-names {
             position: absolute; top: 68%; left: 50%; transform: translateX(-50%);
@@ -139,6 +154,7 @@
 
     <div class="envelope-wrapper" id="wrapper" onclick="handleEnvelopeClick()">
         <div class="envelope">
+            <div class="press-hint">Press this button</div>
             <div class="stamp">❤</div>
             <div class="couple-names">Thanks for coming</div>
             <div class="envelope-quote">“You may be out of my sight, but you’re all I see”</div>
