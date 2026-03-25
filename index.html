@@ -30,41 +30,43 @@
             position: absolute; animation: fall linear infinite;
         }
 
-        /* Hiệu ứng lấp lánh (Bling Bling) */
+        /* Hiệu ứng lấp lánh bling bling */
         @keyframes bling {
-            0%, 100% { filter: brightness(1) drop-shadow(0 0 2px rgba(255,255,255,0.5)); }
-            50% { filter: brightness(1.5) drop-shadow(0 0 10px rgba(255,255,255,0.8)); }
+            0%, 100% { filter: brightness(1); text-shadow: 0 0 5px rgba(255,255,255,0.5); }
+            50% { filter: brightness(1.3); text-shadow: 0 0 15px rgba(255,255,255,0.8); }
         }
 
         .heart.red { 
             color: #ff0000; 
-            text-shadow: 0 0 5px rgba(255,0,0,0.3);
             animation: fall linear infinite, bling 1.5s ease-in-out infinite alternate;
         }
         .heart.white { 
             color: #ffffff; 
-            text-shadow: 0 0 5px rgba(255,255,255,0.5);
             animation: fall linear infinite, bling 2s ease-in-out infinite alternate-reverse;
         }
 
+        /* Chữ rơi nằm ngang, không xoay */
         .falling-text {
-            color: #ff80ab; font-family: 'Dancing Script', cursive;
-            white-space: nowrap; font-weight: bold;
-            transform: rotate(0deg); 
+            color: #ff80ab; 
+            font-family: 'Dancing Script', cursive;
+            white-space: nowrap; 
+            font-weight: bold;
+            animation: fall linear infinite;
         }
 
         @keyframes fall {
-            0% { transform: translateY(-100px) rotate(0deg); opacity: 0; }
+            0% { transform: translateY(-100px); opacity: 0; }
             10% { opacity: 0.8; }
-            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+            100% { transform: translateY(100vh); opacity: 0; }
         }
 
-        /* Hiệu ứng phong thư nhún nhảy khi chưa mở */
+        /* Phong thư đứng yên, không nhún nhảy khi hover */
         .envelope-wrapper { 
-            position: relative; z-index: 10; cursor: pointer; margin-bottom: 30px;
-            transition: transform 0.3s ease;
+            position: relative; 
+            z-index: 10; 
+            cursor: pointer; 
+            margin-bottom: 30px;
         }
-        .envelope-wrapper:hover { transform: scale(1.05) rotate(2deg); }
 
         .envelope {
             width: 300px; height: 200px; background: #ffffff;
@@ -85,13 +87,6 @@
             border-radius: 50%; z-index: 4;
             display: flex; justify-content: center; align-items: center;
             color: white; font-size: 24px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(233, 30, 99, 0.7); }
-            70% { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 0 10px rgba(233, 30, 99, 0); }
-            100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(233, 30, 99, 0); }
         }
 
         .letter {
@@ -122,11 +117,10 @@
 
         .counter-container {
             position: relative; z-index: 5;
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(5px);
+            background: rgba(255, 255, 255, 0.5);
             padding: 15px 25px; border-radius: 25px;
             text-align: center; color: var(--text-gray);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             margin-top: 10px;
         }
 
@@ -146,10 +140,10 @@
             <div class="letter-content">
                 Hello Anh iuu dấu cụa iem,<br><br>
                 Hí hí hỏng có gì trong này hết á lêu lêu lêu, em chỉ test code em mới tạo hui cưng ơi, cảm ơn cưng đã enjoy cái mâu mần này nhế há há<br>
-                — iempe love uuu ❤️
+                — Như Quỳnh nè love uuu ❤️
                 
                 <div class="spotify-container">
-                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2Z3yEEt97Sary7S9Xun79v" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/1gfvt2LrN9uQLwYqDQbPfV?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                 </div>
                 
                 <button class="close-btn" onclick="closeLetter(event)">Đóng thư</button>
@@ -160,7 +154,7 @@
     <div class="counter-container">
         <div class="counter-title">Chúng mình đã bên nhau được:</div>
         <div class="timer" id="timer">Đang tính...</div>
-        <div style="font-size: 0.8rem; margin-top: 5px; opacity: 0.7;">Kể từ ngày 16/05/2024</div>
+        <div style="font-size: 0.8rem; margin-top: 5px; opacity: 0.6;">Kể từ 16/05/2024</div>
     </div>
 
     <script>
@@ -213,6 +207,8 @@
                 el.classList.add('falling-text');
                 el.innerHTML = textArray[Math.floor(Math.random() * textArray.length)];
                 el.style.fontSize = (Math.random() * 8 + 18) + 'px';
+                // Đảm bảo chữ luôn thẳng đứng khi rơi
+                el.style.transform = "rotate(0deg)";
             }
             
             el.style.left = Math.random() * 95 + 'vw';
