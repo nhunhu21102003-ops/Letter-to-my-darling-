@@ -84,7 +84,10 @@
             color: var(--text-gray); line-height: 1.6;
         }
 
-        .music-container { margin-top: 20px; border-radius: 12px; overflow: hidden; background: #000; height: 80px; }
+        /* Ẩn trình phát nhạc đi hoàn toàn */
+        #music-box {
+            width: 0; height: 0; opacity: 0; pointer-events: none; visibility: hidden;
+        }
 
         .close-btn {
             margin-top: 15px; padding: 8px 20px;
@@ -119,8 +122,8 @@
                 hí hí hỏng có gì trong này hết á lêu lêu lêu, em chỉ test code em mới tạo hui cưng ơi, cảm ơn cưng đã enjoy cái mâu mần này nhế há há<br>
                 — Như Quỳnh nè love uuu he
                 
-                <div class="music-container">
-                    <iframe id="youtube-player" width="100%" height="80" src="https://www.youtube.com/embed/oQKZC6Qnrqw?start=50&enablejsapi=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <div id="music-box">
+                    <iframe id="youtube-player" src="https://www.youtube.com/embed/oQKZC6Qnrqw?start=50&enablejsapi=1" frameborder="0" allow="autoplay"></iframe>
                 </div>
                 
                 <button class="close-btn" onclick="closeLetter(event)">Đóng thư</button>
@@ -148,7 +151,7 @@
 
         function openLetter() {
             document.getElementById('wrapper').classList.add('open');
-            // Kích hoạt nhạc tự phát khi mở thư
+            // Kích hoạt nhạc khi mở thư
             const player = document.getElementById('youtube-player');
             player.src += "&autoplay=1";
         }
@@ -156,12 +159,11 @@
         function closeLetter(event) {
             event.stopPropagation();
             document.getElementById('wrapper').classList.remove('open');
-            // Dừng nhạc khi đóng thư
+            // Ngắt nhạc khi đóng
             const player = document.getElementById('youtube-player');
             player.src = player.src.replace("&autoplay=1", "");
         }
 
-        // Bộ đếm thời gian
         const startDate = new Date("2024-05-16T00:00:00").getTime();
         function updateTimer() {
             const now = new Date().getTime();
@@ -174,7 +176,6 @@
         }
         setInterval(updateTimer, 1000);
 
-        // Hiệu ứng chữ rơi
         const container = document.getElementById('falling-container');
         const textArray = ["i love u", "miss you", "QuocAnh", "onlyyou", "NhuHuynh", "foreverlove"];
         function createFallingItem() {
