@@ -87,6 +87,15 @@
             border-radius: 50%; z-index: 4;
             display: flex; justify-content: center; align-items: center;
             color: white; font-size: 24px;
+            /* Hiệu ứng nhịp đập cho con dấu */
+            animation: pulse 2s infinite;
+        }
+
+        /* Định nghĩa hiệu ứng nhịp đập */
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(233, 30, 99, 0.7); }
+            70% { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 0 10px rgba(233, 30, 99, 0); }
+            100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(233, 30, 99, 0); }
         }
 
         .letter {
@@ -140,7 +149,7 @@
             <div class="letter-content">
                 Hello Anh iuu dấu cụa iem,<br><br>
                 Hí hí hỏng có gì trong này hết á lêu lêu lêu, em chỉ test code em mới tạo hui cưng ơi, cảm ơn cưng đã enjoy cái mâu mần này nhế há há<br>
-                — Như Quỳnh nè love uuu ❤️
+                — iempe love uuu so much ❤️
                 
                 <div class="spotify-container">
                     <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/1gfvt2LrN9uQLwYqDQbPfV?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
@@ -154,7 +163,7 @@
     <div class="counter-container">
         <div class="counter-title">Chúng mình đã bên nhau được:</div>
         <div class="timer" id="timer">Đang tính...</div>
-        <div style="font-size: 0.8rem; margin-top: 5px; opacity: 0.6;">Kể từ 16/05/2024</div>
+        <div style="font-size: 0.8rem; margin-top: 5px; opacity: 0.6;">From 16/05/2024</div>
     </div>
 
     <script>
@@ -207,7 +216,6 @@
                 el.classList.add('falling-text');
                 el.innerHTML = textArray[Math.floor(Math.random() * textArray.length)];
                 el.style.fontSize = (Math.random() * 8 + 18) + 'px';
-                // Đảm bảo chữ luôn thẳng đứng khi rơi
                 el.style.transform = "rotate(0deg)";
             }
             
