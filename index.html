@@ -30,7 +30,10 @@
             position: absolute; animation: fall linear infinite;
         }
 
-        .heart { color: white; }
+        /* Lớp màu trái tim ngẫu nhiên */
+        .heart.red { color: #ff3366; opacity: 0.9; } /* Màu đỏ tươi mờ nhẹ */
+        .heart.white { color: #ffffff; opacity: 0.9; } /* Màu trắng mờ nhẹ */
+
         .falling-text {
             color: #ff80ab; font-family: 'Dancing Script', cursive;
             white-space: nowrap; font-weight: bold;
@@ -39,7 +42,7 @@
 
         @keyframes fall {
             0% { transform: translateY(-100px); opacity: 0; }
-            10% { opacity: 0.8; }
+            10% { opacity: 1; }
             100% { transform: translateY(100vh); opacity: 0; }
         }
 
@@ -84,9 +87,12 @@
             color: var(--text-gray); line-height: 1.6;
         }
 
-        /* Ẩn trình phát nhạc SoundCloud */
-        #music-box {
-            position: absolute; width: 0; height: 0; opacity: 0; pointer-events: none;
+        .spotify-container { 
+            margin-top: 20px; 
+            border-radius: 12px; 
+            overflow: hidden; 
+            min-height: 152px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         .close-btn {
@@ -122,8 +128,13 @@
                 hí hí hỏng có gì trong này hết á lêu lêu lêu, em chỉ test code em mới tạo hui cưng ơi, cảm ơn cưng đã enjoy cái mâu mần này nhế há há<br>
                 — Như Quỳnh nè love uuu he
                 
-                <div id="music-box">
-                    <iframe id="sc-player" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1757884617&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+                <div class="spotify-container">
+                    <iframe style="border-radius:12px" 
+                        src="https://open.spotify.com/embed/...3" 
+                        width="100%" height="152" frameBorder="0" allowfullscreen="" 
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                        loading="lazy">
+                    </iframe>
                 </div>
                 
                 <button class="close-btn" onclick="closeLetter(event)">Đóng thư</button>
@@ -151,20 +162,11 @@
 
         function openLetter() {
             document.getElementById('wrapper').classList.add('open');
-            // Kích hoạt tự phát SoundCloud bằng cách thay đổi src
-            const player = document.getElementById('sc-player');
-            let currentSrc = player.src;
-            if (!currentSrc.includes("auto_play=true")) {
-                player.src = currentSrc.replace("auto_play=false", "auto_play=true");
-            }
         }
 
         function closeLetter(event) {
             event.stopPropagation();
             document.getElementById('wrapper').classList.remove('open');
-            // Dừng nhạc
-            const player = document.getElementById('sc-player');
-            player.src = player.src.replace("auto_play=true", "auto_play=false");
         }
 
         const startDate = new Date("2024-05-16T00:00:00").getTime();
@@ -180,25 +182,52 @@
         setInterval(updateTimer, 1000);
 
         const container = document.getElementById('falling-container');
-        const textArray = ["i love u", "miss you", "QuocAnh", "onlyyou", "NhuHuynh", "foreverlove"];
+        const textArray = ["i love u", "miss you", "QuocAnh", "onlyyou", "NhuHuynh", "foreverlove", " há há há", nhớ ôn chã nhìu", "iu ôn chã"];
         function createFallingItem() {
-            const isHeart = Math.random() < 0.6;
-            const el = document.createElement('div');
-            if (isHeart) {
-                el.classList.add('heart');
-                el.innerHTML = '❤';
-                el.style.fontSize = (Math.random() * 15 + 15) + 'px';
+            // Ngẫu nhiên chọn rơi trái tim (80%) hoặc chữ (20%)
+            if (Math.random() < 0.8) {
+                createHeart();
             } else {
-                el.classList.add('falling-text');
-                el.innerHTML = textArray[Math.floor(Math.random() * textArray.length)];
-                el.style.fontSize = (Math.random() * 8 + 18) + 'px';
+                createFallingText();
             }
-            el.style.left = Math.random() * 95 + 'vw';
-            el.style.animationDuration = (Math.random() * 3 + 5) + 's';
-            container.appendChild(el);
-            setTimeout(() => el.remove(), 8000);
         }
-        setInterval(createFallingItem, 400);
+
+        // Hàm tạo trái tim rơi với màu trắng/đỏ ngẫu nhiên
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            
+            // Ngẫu nhiên gán lớp 'red' hoặc 'white'
+            if (Math.random() < 0.5) {
+                heart.classList.add('red');
+            } else {
+                heart.classList.add('white');
+            }
+            
+            heart.innerHTML = '❤';
+            heart.style.left = Math.random() * 95 + 'vw';
+            heart.style.fontSize = (Math.random() * 15 + 15) + 'px'; // 15px - 30px
+            heart.style.animationDuration = (Math.random() * 3 + 4) + 's'; // Rơi nhanh hơn chút
+            
+            container.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 6000);
+        }
+
+        // Hàm tạo chữ rơi (đã chỉnh nằm ngang)
+        function createFallingText() {
+            const textEl = document.createElement('div');
+            textEl.classList.add('falling-text');
+            textEl.innerHTML = textArray[Math.floor(Math.random() * textArray.length)];
+            textEl.style.left = Math.random() * 90 + 'vw'; 
+            textEl.style.fontSize = (Math.random() * 8 + 18) + 'px'; // 18px - 26px
+            textEl.style.animationDuration = (Math.random() * 4 + 4) + 's'; // 4s - 8s (rơi chậm hơn)
+            
+            container.appendChild(textEl);
+            setTimeout(() => { textEl.remove(); }, 8000);
+        }
+
+        // Tạo phần tử rơi mỗi 300ms (dày đặc hơn chút)
+        setInterval(createFallingItem, 300);
     </script>
 </body>
 </html>
